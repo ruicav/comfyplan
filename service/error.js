@@ -3,5 +3,5 @@ const { error } = db;
 
 module.exports = {
   save: async newError => error.create(newError),
-  findAll: async query => error.findAll({ where: query })
+  findAll: async query => error.findAll(query)
 };
