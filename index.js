@@ -20,7 +20,7 @@ const VALIDATIONS_ENUM = {
   MIN_LENGTH: 'minLength'
 };
 
-const isValid = ({ row = {}, schema = {} }) => {
+const getErrors = ({ schema = {}, row = {} }) => {
   const errors = [];
   for (const columnKey in row) {
     if (schema[columnKey]) {
@@ -29,44 +29,43 @@ const isValid = ({ row = {}, schema = {} }) => {
         switch (type) {
           case VALIDATIONS_ENUM.MIN:
             if (Number(row[columnKey]) < Number(value)) {
-              errors.push(message);
+              errors.push(message + `. Found: ${Number(row[columnKey])}`);
             }
             break;
           case VALIDATIONS_ENUM.MAX:
             if (Number(row[columnKey]) > Number(value)) {
-              errors.push(message);
+              errors.push(message + `. Found: ${Number(row[columnKey])}`);
             }
             break;
           case VALIDATIONS_ENUM.TYPE:
             if (typeof row[columnKey] !== value) {
-              errors.push(message);
+              errors.push(message + `. Found: ${typeof row[columnKey]}`);
             }
             break;
           case VALIDATIONS_ENUM.MAX_LENGTH:
             if (row[columnKey].length > value) {
-              errors.push(message);
+              errors.push(message + `. Found: ${row[columnKey].length}`);
             }
             break;
           case VALIDATIONS_ENUM.MIN_LENGTH:
             if (row[columnKey].length < value) {
-              errors.push(message);
+              errors.push(message + `. Found: ${row[columnKey].length}`);
             }
             break;
           default:
             return true;
         }
       }
-      console.log('errors', errors);
-      return errors.length === 0;
     }
   }
-  console.log('row without validation in schema');
-  return true;
+  return errors;
+};
+
+const isValid = ({ row = {}, schema = {} }) => {
+  return getErrors({ schema, row }).length === 0;
 };
 
 router.post('/', upload.single('file'), function(req, res) {
-  //req.file.path
-  // const headers = schema.map(column => column && Object.keys(column)[0])
   csv
     .parseFile(req.file.path, { headers: true, maxRows: 3 })
     .validate(row => {
@@ -92,5 +91,6 @@ setImmediate(startServer);
 
 module.exports = {
   isValid,
+  getErrors,
   VALIDATIONS_ENUM
 };
