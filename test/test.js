@@ -41,5 +41,19 @@ describe('Schema test', function() {
       };
       assert.equal(validation.isValid({ row, schema }), false);
     });
+
+    it('Column with INVALID MAX LENGTH', function() {
+      const schema = {
+        'CI_Age Unit': [{ type: VALIDATIONS_ENUM.MAX_LENGTH, value: 6, message: 'Invalid max lenght' }]
+      };
+      assert.equal(validation.isValid({ row, schema }), false);
+    });
+
+    it('Column with INVALID MIN LENGTH', function() {
+      const schema = {
+        'CI_Age Unit': [{ type: VALIDATIONS_ENUM.MIN_LENGTH, value: 8, message: 'Invalid min lenght' }]
+      };
+      assert.equal(validation.isValid({ row, schema }), false);
+    });
   });
 });

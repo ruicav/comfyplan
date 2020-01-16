@@ -15,7 +15,9 @@ const port = 9000;
 const VALIDATIONS_ENUM = {
   MIN: 'min',
   MAX: 'max',
-  TYPE: 'typeof'
+  TYPE: 'typeof',
+  MAX_LENGTH: 'maxLength',
+  MIN_LENGTH: 'minLength'
 };
 
 const isValid = ({ row = {}, schema = {} }) => {
@@ -23,21 +25,31 @@ const isValid = ({ row = {}, schema = {} }) => {
   for (const columnKey in row) {
     if (schema[columnKey]) {
       for (const validation of schema[columnKey]) {
-        console.log('validation.type', validation.type);
-        switch (validation.type) {
+        const { type, value, message } = validation;
+        switch (type) {
           case VALIDATIONS_ENUM.MIN:
-            if (Number(row[columnKey]) < Number(validation.value)) {
-              errors.push(validation.message);
+            if (Number(row[columnKey]) < Number(value)) {
+              errors.push(message);
             }
             break;
           case VALIDATIONS_ENUM.MAX:
-            if (Number(row[columnKey]) > Number(validation.value)) {
-              errors.push(validation.message);
+            if (Number(row[columnKey]) > Number(value)) {
+              errors.push(message);
             }
             break;
           case VALIDATIONS_ENUM.TYPE:
-            if (typeof row[columnKey] !== validation.value) {
-              errors.push(validation.message);
+            if (typeof row[columnKey] !== value) {
+              errors.push(message);
+            }
+            break;
+          case VALIDATIONS_ENUM.MAX_LENGTH:
+            if (row[columnKey].length > value) {
+              errors.push(message);
+            }
+            break;
+          case VALIDATIONS_ENUM.MIN_LENGTH:
+            if (row[columnKey].length < value) {
+              errors.push(message);
             }
             break;
           default:
