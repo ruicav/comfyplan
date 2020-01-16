@@ -1,4 +1,4 @@
-# comfyplan
+# comfyplan (API)
 
 ### docker build -t ruicav/comfy-api .
 
