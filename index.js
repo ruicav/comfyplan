@@ -19,11 +19,12 @@ const isValid = ({ row = {}, schema = {} }) => {
         for(const validation of schema[columnKey]) {
           switch(validation.type) {
             case 'min':
-              if(Number.isNaN(Number(row[columnKey]))) {
-                errors.push('Numero invalido')
-              }
               if(Number(row[columnKey]) < Number(validation.value)) {
                 errors.push('Valor minimo invalido')
+              }
+            case 'max':
+              if(Number(row[columnKey]) > Number(validation.value)) {
+                errors.push('Valor maximo invalido')
               }
           }
         }
