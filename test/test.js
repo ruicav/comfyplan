@@ -20,16 +20,24 @@ describe('Schema test', function() {
       'SYM_One Row Coded Symptoms': 'SWELLING FACE, RASH, WHEEZING, COUGH, HOSPITALISATION, DYSPNOEA'
     };
 
+    const { VALIDATIONS_ENUM } = validation;
     it('Column with INVALID MIN value', function() {
       const schema = {
-        'RA_Report #': [{ type: 'min', value: 65326 }]
+        'RA_Report #': [{ type: VALIDATIONS_ENUM.MIN, value: 65326, message: 'Invalid min value' }]
       };
       assert.equal(validation.isValid({ row, schema }), false);
     });
 
     it('Column with INVALID MAX value', function() {
       const schema = {
-        'RA_Report #': [{ type: 'max', value: 65324 }]
+        'RA_Report #': [{ type: VALIDATIONS_ENUM.MAX, value: 65324, message: 'Invalid max value' }]
+      };
+      assert.equal(validation.isValid({ row, schema }), false);
+    });
+
+    it('Column with INVALID TYPE', function() {
+      const schema = {
+        'RA_Report #': [{ type: VALIDATIONS_ENUM.TYPE, value: 'undefined', message: 'Invalid type' }]
       };
       assert.equal(validation.isValid({ row, schema }), false);
     });
