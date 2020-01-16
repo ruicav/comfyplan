@@ -11,6 +11,20 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         unique: true
+      },
+      name: {
+        type: Sequelize.STRING,
+        unique: true
+      },
+      validated: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
   },

@@ -12,13 +12,23 @@ module.exports = {
         type: Sequelize.NUMBER,
         allowNull: false
       },
-      dataset: {
+      datasetId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: "datasets", key: "id" },
         validate: {
           notNull: { msg: "Deve referenciar um dataset" }
         }
+      },
+      errors: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
     });
   },

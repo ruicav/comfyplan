@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: { msg: "Deve referenciar um dataset" }
       }
+    },
+    errors: {
+      allowNull: false,
+      type: DataTypes.STRING
     }
   });
 
