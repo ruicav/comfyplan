@@ -12,15 +12,6 @@ const router = new Router();
 const server = http.createServer(app);
 const port = 9000;
 
-// invalid schema
-// const getSchema = () => [...Array(12).keys()]
-//    .map((value, index) => index === 0
-//      ? {'RA_Report #': [{ type: 'min', value: 65326 }]}
-//      : undefined)
-const getSchema = () => ({
-  'RA_Report #': [{ type: 'min', value: 65326 }]
-})
-
 const isValid = ({ row = {}, schema = {} }) => {
   const errors = []
   console.log('is Valid row', row)
@@ -79,6 +70,5 @@ function startServer() {
 setImmediate(startServer);
 
 module.exports = {
-  getSchema,
   isValid
 };
