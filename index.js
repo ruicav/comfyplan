@@ -14,22 +14,14 @@ const port = 9000;
 
 const isValid = ({ row = {}, schema = {} }) => {
   const errors = []
-  console.log('is Valid row', row)
   for (const columnKey in row) {
-    console.log('columnKey', columnKey)
     if (schema[columnKey]) {
-        console.log('includes')
-        console.log('schema[columnKey]', JSON.stringify(schema[columnKey]))
         for(const validation of schema[columnKey]) {
-          console.log('validation', validation)
           switch(validation.type) {
             case 'min':
-              console.log('min validation')
-              console.log('Number(row[columnKey])', Number(row[columnKey]))
               if(Number.isNaN(Number(row[columnKey]))) {
                 errors.push('Numero invalido')
               }
-              console.log('Number(row[columnKey]) > validation.value', Number(row[columnKey]) > Number(validation.value))
               if(Number(row[columnKey]) < Number(validation.value)) {
                 errors.push('Valor minimo invalido')
               }
